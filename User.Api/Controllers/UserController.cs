@@ -40,7 +40,6 @@ namespace User.Api.Controllers
 
         [Route("update")]
         [HttpPatch]
-
         public async Task<IActionResult> Patch([FromBody]JsonPatchDocument<AppUser> patch)
         {
             /*
@@ -76,6 +75,25 @@ namespace User.Api.Controllers
             }
             await _userContext.SaveChangesAsync();
             return Json(user);
+        }
+
+        /// <summary>
+        /// 判断用户是否存在，不存在创建用户
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [Route("checkorcreate")]
+        [HttpPost]
+        public async Task<IActionResult> CheckOrCreate([FromForm]string phone)
+        {
+            var user = await _userContext.Users.FirstOrDefaultAsync(u => u.Phone == phone);
+            if (user == null)
+            {
+                user = new AppUser() { Phone = phone };
+                _userContext.Users.Add(user);
+                await _userContext.SaveChangesAsync();
+            }
+            return Ok(user.Id);
         }
     }
 }
