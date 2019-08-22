@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Gateway", "API.Gateway\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{8F2FBBCF-D5D9-45F4-92C7-2EB93E00EAED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reslience", "Reslience\Reslience.csproj", "{ACBD65F2-D407-49F3-A210-A4606898612B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,12 +39,17 @@ Global
 		{1CFA25FA-EF3E-4C2F-A753-26E4618BB174}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CFA25FA-EF3E-4C2F-A753-26E4618BB174}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CFA25FA-EF3E-4C2F-A753-26E4618BB174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBD65F2-D407-49F3-A210-A4606898612B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBD65F2-D407-49F3-A210-A4606898612B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBD65F2-D407-49F3-A210-A4606898612B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBD65F2-D407-49F3-A210-A4606898612B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FCB85D51-6D00-4F1C-AB28-2769C552B6EF} = {CF52FF65-E93A-48B2-9EA5-F37BBF8B5242}
+		{ACBD65F2-D407-49F3-A210-A4606898612B} = {8F2FBBCF-D5D9-45F4-92C7-2EB93E00EAED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F080D595-181D-4A3E-9F5E-4E24ECF557D2}
