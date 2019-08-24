@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Gateway", "API.Gateway\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{8F2FBBCF-D5D9-45F4-92C7-2EB93E00EAED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reslience", "Reslience\Reslience.csproj", "{ACBD65F2-D407-49F3-A210-A4606898612B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reslience", "Reslience\Reslience.csproj", "{ACBD65F2-D407-49F3-A210-A4606898612B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact.API", "..\Contact.API\Contact.API.csproj", "{1C19BB2F-DC87-4044-B2C4-B0B332FD4D4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{ACBD65F2-D407-49F3-A210-A4606898612B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACBD65F2-D407-49F3-A210-A4606898612B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACBD65F2-D407-49F3-A210-A4606898612B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C19BB2F-DC87-4044-B2C4-B0B332FD4D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C19BB2F-DC87-4044-B2C4-B0B332FD4D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C19BB2F-DC87-4044-B2C4-B0B332FD4D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C19BB2F-DC87-4044-B2C4-B0B332FD4D4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

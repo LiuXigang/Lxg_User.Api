@@ -95,5 +95,42 @@ namespace User.Api.Controllers
             }
             return Ok(user.Id);
         }
+
+        /// <summary>
+        /// 手机号可以查询，但给一天次数的限制
+        /// userid 查找则需要限制，是 内部或外部api 查询时可以，外部api 比如 用户好友api
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("search/{phone}")]
+        public async Task<IActionResult> Search(string phone)
+        {
+            var data = await _userContext.Users
+                .Include(u => u.Properties)
+                .SingleOrDefaultAsync(u => u.Id == UserIdentity.UserId);
+            return Ok();
+        }
+
+        //TBD  FromBody 的api 调用问题待解决
+        [HttpPut]
+        [Route("tags")]
+        public async Task<IActionResult> UpdateUserTags([FromBody]List<string> tags)
+        {
+            var originTags = await _userContext
+                .UserTags
+                .Where(u => u.AppUserId == UserIdentity.UserId)
+                .ToListAsync();
+            var newTags = tags.Except(originTags.Select(t => t.Tag.ToString()));
+
+            await _userContext.UserTags.AddRangeAsync(newTags.Select(t => new Model.UserTag
+            {
+                CreationTime = DateTime.Now,
+                AppUserId = UserIdentity.UserId,
+                Tag = int.Parse(t)
+            }));
+            await _userContext.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
