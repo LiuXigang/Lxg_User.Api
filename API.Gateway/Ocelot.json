@@ -30,6 +30,66 @@
       ],
       "UpstreamPathTemplate": "/connect/token",
       "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2103
+        }
+      ],
+      "UpstreamPathTemplate": "/contact",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AllowedScopes": [ "contact_api" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/tag",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2103
+        }
+      ],
+      "UpstreamPathTemplate": "/contact/tag",
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AllowedScopes": [ "contact_api" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/apply-request/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2103
+        }
+      ],
+      "UpstreamPathTemplate": "/contact/apply-request/{catchAll}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "AuthenticationOptions": {
+        "AllowedScopes": [ "contact_api" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/contact/apply-request",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 2103
+        }
+      ],
+      "UpstreamPathTemplate": "/contact/apply-request",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AllowedScopes": [ "contact_api" ]
+      }
     }
   ]
 }
