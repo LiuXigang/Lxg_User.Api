@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCore.CAP;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using User.Api.Data;
+using User.Api.Events;
 using User.Api.Model;
 
 namespace User.Api.Controllers
@@ -17,11 +19,12 @@ namespace User.Api.Controllers
     {
         private UserContext _userContext;
         private ILogger<UserController> _logger;
-
-        public UserController(UserContext userContext, ILogger<UserController> logger)
+        private readonly ICapPublisher _publisher;
+        public UserController(UserContext userContext, ILogger<UserController> logger, ICapPublisher publisher)
         {
             _userContext = userContext;
             _logger = logger;
+            _publisher = publisher;
         }
         [Route("get")]
         [HttpGet]
@@ -49,32 +52,45 @@ namespace User.Api.Controllers
                            "value":"adminA"
                        } 
              */
-            var user = await _userContext.Users.FirstOrDefaultAsync(u => u.Id == UserIdentity.UserId);
+            var user = await _userContext.Users
+                .SingleOrDefaultAsync(u => u.Id == UserIdentity.UserId);
             patch.ApplyTo(user);
 
-            foreach (var property in user?.Properties)
+            using (var transaction = _userContext.Database.BeginTransaction())
             {
-                _userContext.Entry(property).State = EntityState.Detached;
+                try
+                {
+                    RaiseUserprofileChangedEvent(user);
+                    await _userContext.SaveChangesAsync();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"更新用户信息失败：{ex.Message}");
+                    transaction.Rollback();
+                }
             }
 
-            var originProperties = await _userContext.UserProperty.AsNoTracking()
-                .Where(u => u.AppUserId == UserIdentity.UserId).ToListAsync();
-            //合并，去重
-            var allProperties = originProperties.Union(user.Properties).Distinct();
-            //这里的意思是strList1中哪些是strList2中没有的,并将获得的差值存放在strList3(即: strList1中有, strList2中没有)
-            var removedProperties = originProperties.Except(user.Properties);
-            var newProperties = allProperties.Except(originProperties);
-
-            foreach (var property in removedProperties)
-            {
-                _userContext.Remove(property);
-            }
-            foreach (var item in newProperties)
-            {
-                _userContext.Add(item);
-            }
-            await _userContext.SaveChangesAsync();
             return Json(user);
+        }
+
+        private void RaiseUserprofileChangedEvent(Model.AppUser user)
+        {
+            if (_userContext.Entry(user).Property(nameof(user.Name)).IsModified ||
+                _userContext.Entry(user).Property(nameof(user.Avatar)).IsModified ||
+                _userContext.Entry(user).Property(nameof(user.Company)).IsModified ||
+                _userContext.Entry(user).Property(nameof(user.Title)).IsModified)
+            {
+                _publisher.Publish("finbook_userapi_userprofilechanged", new UserProfileChangedEvent
+                {
+                    Name = user.Name,
+                    Avatar = user.Avatar,
+                    Company = user.Company,
+                    Title = user.Title,
+                    UserId = user.Id,
+
+                });
+            }
         }
 
         /// <summary>

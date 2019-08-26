@@ -35,6 +35,25 @@ namespace User.Api
             {
                 options.Filters.Add<HttpGlobalExceptionFilter>();//自定义全局异常过滤器
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region CAP
+            services.AddCap(options =>
+            {
+                options
+                    .UseEntityFramework<UserContext>()
+                    .UseRabbitMQ("localhost")
+                    .UseDashboard();
+                //options.UseDiscovery(d =>
+                //{
+                //    d.DiscoveryServerHostName = "localhost";
+                //    d.DiscoveryServerPort = 8500;
+                //    d.CurrentNodeHostName = "localhost";
+                //    d.CurrentNodePort = 56688;
+                //    d.NodeId = "123";
+                //    d.NodeName = "CAP UserAPI Node";
+                //});
+            });
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -48,6 +67,7 @@ namespace User.Api
                 app.UseHsts();
             }
 
+            //app.UseCap();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
